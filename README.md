@@ -1,6 +1,6 @@
 # Livy-draw
 
-<img src="logo.png" alt="livy" width="260px">
+<img src="https://raw.githubusercontent.com/isaias-silva/livy-drawn/master/logo.png" alt="livy" width="260px">
 
 A TypeScript library for drawing using x and y coordinates.
 
