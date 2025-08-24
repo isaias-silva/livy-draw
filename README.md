@@ -1,50 +1,162 @@
 # Livy-draw
 
-<img src="./logo.png" width="200px"></img>
+<img src="./logo.png" width="250px" alt="Livy-draw Logo"></img>
 
-<p>A ts library for drawing with x and y coordinates.<p>
+A TypeScript library for drawing using x and y coordinates.
 
-## usage:
-### draw with coordinates.
-  
-after defining the ImageWindow instance, we can create an image (`createImage(path)`) where we draw with the ``draw(x,y,color)`` method, we can define the coordinates and color (hexadecimal) of the points
+## 🚀 Features
 
+- ✨ Simple drawing with x, y coordinates
+- 🎨 Hexadecimal color support
+- 📊 Batch drawing with coordinate arrays
+- 🖼️ Extract pixel coordinates from existing images
+- 📦 TypeScript and JavaScript compatible
+- ⚡ Support for both Bun and npm
 
-```typescript
+## 📦 Installation
 
-
-new ImageWindow(100,100)
-.createImage(path.resolve("images","the-line.png"))
-.draw(1,2,"#000")
-.draw(1,3,"#000")
-.draw(1,4,"#000")
-.save()
-
+### Bun
+```bash
+bun add @isaias-silva/livy-draw
 ```
 
-### draw with coordinates array:
-we can also draw with an array of Coordinate objects.
+### npm
+```bash
+npm install @isaias-silva/livy-draw
+```
+
+## 📖 Usage
+
+### Import
+```typescript
+import { ImageWindow, Coordinates, extractPixelsCoordinatesInImage } from '@isaias-silva/livy-draw';
+import path from 'path';
+```
+
+### 🎯 Basic Drawing with Coordinates
+
+After defining an `ImageWindow` instance, you can create an image using `createImage(path)` and draw individual points with the `draw(x, y, color)` method:
 
 ```typescript
-const coordinates=[]
-for(let point=0; point<100; point++){
-    coordinates.push(new Coordinates<string>("#000",1,point));
+// Creating a vertical line
+const canvas = new ImageWindow(100, 100);
+
+canvas
+  .createImage(path.resolve("images", "vertical-line.png"))
+  .draw(50, 10, "#ff0000")  // Red point
+  .draw(50, 11, "#ff0000")  // Red point
+  .draw(50, 12, "#ff0000")  // Red point
+  .draw(50, 13, "#ff0000")  // Red point
+  .save();
+```
+
+### 📊 Drawing with Coordinate Arrays
+
+You can also draw using an array of `Coordinate` objects for batch operations:
+
+```typescript
+// Creating a diagonal line
+const coordinates = [];
+for (let point = 0; point < 50; point++) {
+  coordinates.push(new Coordinates<string>("#00ff00", point, point));
 }
-new ImageWindow(100,100)
-.drawComplete(coordinates);
 
+const canvas = new ImageWindow(100, 100);
+canvas
+  .createImage(path.resolve("images", "diagonal-line.png"))
+  .drawComplete(coordinates)
+  .save();
 ```
 
-### get pixels coordinates of image:
+### 🖼️ Extracting Coordinates from Images
 
-Is possible extract the position and content(color) of pixels of an image with the util function `extractPixelsCoordinatesInImage`. is returned a array of objects `Coordinate<string>` with x, y and content(color in hexadecimal).
+You can extract the position and content (color) of pixels from an existing image using the `extractPixelsCoordinatesInImage` utility function:
 
 ```typescript
+// Extracting coordinates from an existing image
+const coordinates = await extractPixelsCoordinatesInImage(
+  path.resolve("images", "source-image.png"),
+  "#ffffff"  // Color to ignore (optional)
+);
 
-const coordinates = await extractPixelsCoordinatesInImage(path.resolve("images","gojira.png"),"#fff");
-
-new ImageWindow(100,100)
-.drawComplete(coordinates);
-
+// Redrawing in a new image
+const canvas = new ImageWindow(200, 200);
+canvas
+  .createImage(path.resolve("images", "copied-image.png"))
+  .drawComplete(coordinates)
+  .save();
 ```
-> you can ignore the color of a pixel in `extractPixelsCoordinatesInImage` with the second parameter (hexIgnore)
+
+> 💡 **Tip:** You can ignore pixels of a specific color using the second parameter (`hexIgnore`) in the `extractPixelsCoordinatesInImage` function
+
+## 🎨 Advanced Examples
+
+### Creating Geometric Patterns
+```typescript
+// Creating a square
+const square = [];
+const size = 20;
+
+// Horizontal borders
+for (let x = 0; x < size; x++) {
+  square.push(new Coordinates<string>("#0000ff", x, 0));        // Top
+  square.push(new Coordinates<string>("#0000ff", x, size - 1)); // Bottom
+}
+
+// Vertical borders
+for (let y = 0; y < size; y++) {
+  square.push(new Coordinates<string>("#0000ff", 0, y));        // Left
+  square.push(new Coordinates<string>("#0000ff", size - 1, y)); // Right
+}
+
+const canvas = new ImageWindow(100, 100);
+canvas
+  .createImage(path.resolve("images", "square.png"))
+  .drawComplete(square)
+  .save();
+```
+
+### Processing Multiple Images
+```typescript
+const processImages = async () => {
+  const sourceImages = ["image1.png", "image2.png", "image3.png"];
+  
+  for (const imageName of sourceImages) {
+    const coordinates = await extractPixelsCoordinatesInImage(
+      path.resolve("source", imageName),
+      "#ffffff"
+    );
+    
+    const canvas = new ImageWindow(300, 300);
+    canvas
+      .createImage(path.resolve("processed", `processed-${imageName}`))
+      .drawComplete(coordinates)
+      .save();
+  }
+};
+
+processImages();
+```
+
+## 📚 API Reference
+
+### `ImageWindow`
+- **Constructor:** `new ImageWindow(width: number, height: number)`
+- **Methods:**
+  - `createImage(path: string): ImageWindow`
+  - `draw(x: number, y: number, color: string): ImageWindow`
+  - `drawComplete(coordinates: Coordinates<string>[]): ImageWindow`
+  - `save(): void`
+
+### `Coordinates<T>`
+- **Constructor:** `new Coordinates<T>(content: T, x: number, y: number)`
+
+### `extractPixelsCoordinatesInImage`
+- **Signature:** `extractPixelsCoordinatesInImage(imagePath: string, hexIgnore?: string): Promise<Coordinates<string>[]>`
+
+## 🤝 Contributing
+
+Contributions are welcome! Feel free to open issues or pull requests.
+
+
+**Made with [@isaias-silva](https://github.com/isaias-silva)**
