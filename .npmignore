@@ -1,0 +1,15 @@
+
+.github
+tests
+
+
+bun.lock
+*.log
+
+
+*.png
+*.jpg
+*.jpeg
+*.gif
+
+tsconfig.json
