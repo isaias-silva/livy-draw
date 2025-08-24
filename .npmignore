@@ -1,15 +1,8 @@
 
-.github
-tests
-
-
+src/
+tests/
+.github/
 bun.lock
 *.log
-
-
 *.png
-*.jpg
-*.jpeg
-*.gif
-
 tsconfig.json

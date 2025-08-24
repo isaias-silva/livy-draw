@@ -17,12 +17,12 @@ A TypeScript library for drawing using x and y coordinates.
 
 ### Bun
 ```bash
-bun add @isaias-silva/livy-draw
+bun add livy-draw
 ```
 
 ### npm
 ```bash
-npm install @isaias-silva/livy-draw
+npm install livy-draw
 ```
 
 ## 📖 Usage
