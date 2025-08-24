@@ -8,7 +8,6 @@
   "peerDependencies": {
     "typescript": "^5"
   },
-  "private": true,
   "type": "module",
   "dependencies": {
     "jimp": "^1.6.0"
