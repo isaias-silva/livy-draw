@@ -1,5 +1,5 @@
 {
-  "name": "@isaias-silva/liv-draw",
+  "name": "@isaias-silva/livy-draw",
   "module": "src/index.ts",
   "version": "1.0.0",
   "devDependencies": {
