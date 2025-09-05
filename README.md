@@ -10,6 +10,7 @@ A TypeScript library for drawing using x and y coordinates.
 - 🎨 Hexadecimal color support
 - 📊 Batch drawing with coordinate arrays
 - 🖼️ Extract pixel coordinates from existing images
+- 🖼️ Resize image width and height
 - 📦 TypeScript and JavaScript compatible
 - ⚡ Support for both Bun and npm
 
@@ -89,6 +90,13 @@ canvas
 
 > 💡 **Tip:** You can ignore pixels of a specific color using the second parameter (`hexIgnore`) in the `extractPixelsCoordinatesInImage` function
 
+### 🖼️ Resize images:
+You can resize width and height in image.
+```typescript
+// resize image from width=100 and height=120 
+await resizeImage( path.resolve("images", "source-image.png"),100,120)
+```
+
 ## 🎨 Advanced Examples
 
 ### Creating Geometric Patterns
@@ -146,14 +154,16 @@ processImages();
   - `createImage(path: string): ImageWindow`
   - `draw(x: number, y: number, color: string): ImageWindow`
   - `drawComplete(coordinates: Coordinates<string>[]): ImageWindow`
-  - `save(): void`
+  - `save(): Promise<void>`
 
 ### `Coordinates<T>`
 - **Constructor:** `new Coordinates<T>(content: T, x: number, y: number)`
 
 ### `extractPixelsCoordinatesInImage`
-- **Signature:** `extractPixelsCoordinatesInImage(imagePath: string, hexIgnore?: string): Promise<Coordinates<string>[]>`
+- **Signature:** `extractPixelsCoordinatesInImage(path: string, hexIgnore?: string): Promise<Coordinates<string>[]>`
 
+### `resizeImage`
+- **Signature** `resizeImage(path:string, w:number, h:number):Promise<void>`
 ## 🤝 Contributing
 
 Contributions are welcome! Feel free to open issues or pull requests.

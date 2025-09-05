@@ -13,14 +13,14 @@ export class ImageDraw extends Draw<string> {
 
     }
 
-    override async drawComplete(coordinates: Array<Coordinates<string>>) {
+    override drawComplete(coordinates: Array<Coordinates<string>>) {
 
         for (const coord of coordinates) {
             const { x, y, content } = coord;
             const { width, height } = this.image.bitmap;
             if (x < width && y < height) this.draw(x, y, content);
         }
-        await this.save();
+        return this
     }
     override draw(x: number, y: number, content: string): this {
 
@@ -28,14 +28,21 @@ export class ImageDraw extends Draw<string> {
         return this
     }
     override erase(x: number, y: number): this {
-        this.image.setPixelColor(0x00,x,y)
+        this.image.setPixelColor(0x00, x, y)
         return this
     }
 
     async save() {
-        const [name, type] = this.path.split(".");
 
-        this.image.write(`${name}.${type}`);
+        const paths = this.path.split("/")
+
+        const lastIndex = paths.length - 1;
+
+        const [name, type] = paths[lastIndex].split(".");
+
+        paths.splice(lastIndex)
+
+        this.image.write(`${paths.join("/")}/${name}.${type}`);
     }
     private parseColor(content: string): number {
         return cssColorToHex(content);
